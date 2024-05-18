@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title>OR</title>
+  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+
+<style>
+  body {
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+    background-color: #f4f4f9;
+    color: #333;
+  }
+  .form-container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    margin-top: 20px;
+  }
+  fieldset {
+    border: 1px solid #ddd;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 8px;
+  }
+  legend {
+    padding: 5px 10px; /* Added vertical padding */
+    background: #f8f8f8; /* Light gray background for subtle distinction */
+    width: auto;
+    border: none;
+    color: #333; /* Darker color for better contrast */
+    font-weight: bold; /* Make the text bold */
+    font-size: 1.1em; /* Slightly larger font size */
+    border-radius: 4px; /* Rounded corners if the background extends */
+  }
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background-color: #fff;
+    margin: 5px 2px; /* Reduced horizontal margin */
+    font-size: 15px;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #555;
+    border-radius: 3px;
+    cursor: pointer;
+    position: relative;
+  }
+  input[type="checkbox"]:before, input[type="checkbox"]:after {
+    content: "";
+    position: absolute;
+    width: 12px; /* Adjust width for thicker or thinner "X" */
+    height: 2px; /* Adjust height for thicker or thinner "X" */
+    background-color: #555; /* Change color here */
+    top: 9px; /* Adjust vertical position */
+    left: 4px; /* Adjust horizontal position */
+    opacity: 0;
+  }
+  input[type="checkbox"]:before {
+    transform: rotate(45deg); /* Adjust rotation angle */
+  }
+  input[type="checkbox"]:after {
+    transform: rotate(-45deg); /* Adjust rotation angle */
+  }
+  input[type="checkbox"]:checked:before,
+  input[type="checkbox"]:checked:after {
+    opacity: 1; /* This makes the "X" visible when checked */
+  }
+  input[type="checkbox"]:checked {
+    background-color: #fff; /* Keep background white */
+    border-color: #0056b3;
+  }
+  input[type="text"], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+  }
+  input[type="button"] {
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-top: 10px;
+  }
+  input[type="button"]:hover {
+    background-color: #004494;
+  }
+  .checkbox-grid {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px; /* Reduced space between checkboxes */
+  }
+</style>
+
+
+</head>
+<body style="direction: rtl;">
+  <div class="form-container">
+
+    
+    <!-- Text input and button -->
+    <div class="input-section">
+      <input type="button" id="toopy" value="Copy" onclick="copyThis(this)">
+      <input type="text" name="word" id="word">
+    </div>
+
+
+    <!-- Master checkboxes section -->
+    <fieldset>
+      <legend>אפשרויות ראשיות</legend>
+      <input type="checkbox" id="masterCheckbox"> כל האפשרויות
+      <input type="checkbox" id="nameMasterCheckbox"> שמות
+    </fieldset>
+
+
+    <!-- First group of checkboxes -->
+    <fieldset>
+      <legend>אופציות בסיסיות</legend>
+      <div class="checkbox-grid">
+        <input type="checkbox" class="che" name="u" checked value="u"> ו
+        <input type="checkbox" class="che" name="c" checked value="c"> ב
+        <input type="checkbox" class="che" name="n" checked value="n"> מ
+        <input type="checkbox" class="che" name="k" checked value="k"> ל
+        <input type="checkbox" class="che" name="v" checked value="v"> ה
+        <input type="checkbox" class="che" name="a" checked value="a"> ש
+      </div>
+    </fieldset>
+
+    <!-- Second group of checkboxes -->
+    <fieldset>
+      <legend>אופציות מורכבות</legend>
+      <div class="checkbox-grid">
+        <input type="checkbox" class="che" name="un" value="un"> ומ
+        <input type="checkbox" class="che" name="uk" value="uk"> ול
+        <input type="checkbox" class="che" name="fa" value="fa"> כש
+        <input type="checkbox" class="che" name="av" value="av"> שה
+        <input type="checkbox" class="che" name="uv" value="uv"> וה
+        <input type="checkbox" class="che" name="fav" value="fav"> כשה
+        <input type="checkbox" class="che" name="uc" value="uc"> וב
+        <input type="checkbox" class="che" name="nv" value="nv"> מה
+        <input type="checkbox" class="che" name="vc" value="vc"> בכשה
+        <input type="checkbox" class="che" name="wm" value="wm"> ומה
+      </div>
+    </fieldset>
+
+    <!-- Third group of checkboxes (special options) -->
+    <fieldset>
+      <legend>אופציות מיוחדות</legend>
+      <div class="checkbox-grid">
+        <input type="checkbox" class="che" name="par" value="par"> (X)
+        <input type="checkbox" class="che" name="author_id" value="author_id"> author_id:
+        <input type="checkbox" class="che" name="author" value="author"> author:
+      </div>
+    </fieldset>
+  </div>
+    <textarea id="res" style="width: 700px; height: 500px;"></textarea>
+  </div>
+  <script>
+    var toopy = $('#toopy');
+
+    var u = $('[name="u"]');
+    var c = $('[name="c"]');
+    var n = $('[name="n"]');
+    var k = $('[name="k"]');
+    var v = $('[name="v"]');
+    var a = $('[name="a"]');
+
+    var un = $('[name="un"]');
+    var uk = $('[name="uk"]');
+    var fa = $('[name="fa"]');
+    var av = $('[name="av"]');
+    var uv = $('[name="uv"]');
+    var fav = $('[name="fav"]');
+    var uc = $('[name="uc"]');
+    var nv = $('[name="nv"]');
+    var par = $('[name="par"]');
+    var vc = $('[name="vc"]');
+    var wm = $('[name="wm"]');
+    var author_id = $('[name="author_id"]');
+    var author = $('[name="author"]');
+
+    var result = '';
+    function go() {
+      result = '';
+      var word = $('#word').val();
+      var words = word.split(','); // Split the input into individual words
+      
+      var syntaxPrefix = ''; // Store the syntax prefix (author_id or author)
+
+      if (author_id.is(':checked')) {
+        syntaxPrefix = 'author_id:';
+      } else if (author.is(':checked')) {
+        syntaxPrefix = 'author:';
+      }
+
+      words.forEach(function(word, index) { // Iterate over each word separately
+        word = word.trim(); // Remove any extra whitespace
+        if (word) {
+          var localResult = '"' + word + '"'; // Start with the word itself
+          if (u.is(':checked')) localResult += ' OR "ו' + word + '"';
+          if (c.is(':checked')) localResult += ' OR "ב' + word + '"';
+          if (n.is(':checked')) localResult += ' OR "מ' + word + '"';
+          if (k.is(':checked')) localResult += ' OR "ל' + word + '"';
+          if (v.is(':checked')) localResult += ' OR "ה' + word + '"';
+          if (a.is(':checked')) localResult += ' OR "ש' + word + '"';
+          if (un.is(':checked')) localResult += ' OR "ומ' + word + '"';
+          if (uk.is(':checked')) localResult += ' OR "ול' + word + '"';
+          if (fa.is(':checked')) localResult += ' OR "כש' + word + '"';
+          if (av.is(':checked')) localResult += ' OR "שה' + word + '"';
+          if (uv.is(':checked')) localResult += ' OR "וה' + word + '"';
+          if (fav.is(':checked')) localResult += ' OR "כשה' + word + '"';
+          if (uc.is(':checked')) localResult += ' OR "וב' + word + '"';
+          if (nv.is(':checked')) localResult += ' OR "מה' + word + '"';
+          if (vc.is(':checked')) localResult += ' OR "וכשה' + word + '"';
+          if (wm.is(':checked')) localResult += ' OR "ומה' + word + '"';
+
+          if (syntaxPrefix) {
+            localResult = syntaxPrefix + localResult;
+          }
+
+          if (index > 0 && syntaxPrefix) {
+            result += ' OR ' + localResult; // Add " OR " between each word
+          } else {
+            result += localResult;
+          }
+        }
+      });
+
+      if (par.is(':checked')) {
+        result = '(' + result.trim() + ')';
+      }
+
+      if (word == '') {
+        result = '';
+      }
+
+      $('#res').val(result.trim());
+    }
+
+    $('#word').on('input', function (e) {
+      go();
+    });
+
+    $('.che').on('input', function (e) {
+      go();
+    });
+
+    toopy.click(function () {
+      var id = "mycustom-clipboard-textarea-hidden-id";
+      var existsTextarea = document.getElementById(id);
+
+      if (!existsTextarea) {
+        console.log("Creating textarea");
+        var textarea = document.createElement("textarea");
+        textarea.id = id;
+        textarea.style.position = 'fixed';
+        textarea.style.top = 0;
+        textarea.style.left = 0;
+        textarea.style.width = '1px';
+        textarea.style.height = '1px';
+        textarea.style.padding = 0;
+        textarea.style.border = 'none';
+        textarea.style.outline = 'none';
+        textarea.style.boxShadow = 'none';
+        textarea.style.background = 'transparent';
+        document.querySelector("body").appendChild(textarea);
+        console.log("The textarea now exists :)");
+        existsTextarea = document.getElementById(id);
+      } else {
+        console.log("The textarea already exists :3")
+      }
+
+      existsTextarea.value = result;
+      existsTextarea.select();
+
+      var status = document.execCommand('copy');
+    });
+
+    var masterCheckbox = $('#masterCheckbox');
+
+    masterCheckbox.change(function () {
+      var isChecked = masterCheckbox.is(':checked');
+      $('.che').prop('checked', isChecked);
+      go();
+    });
+
+    $('.che').on('input', function (e) {
+      go();
+    });
+
+    var nameMasterCheckbox = $('#nameMasterCheckbox');
+    nameMasterCheckbox.change(function () {
+      var isChecked = nameMasterCheckbox.is(':checked');
+      var checkboxesToControl = ['u', 'n', 'k', 'a', 'par', 'un', 'uk', 'fa'];
+      checkboxesToControl.forEach(function(name) {
+        $('[name="' + name + '"]').prop('checked', isChecked);
+      });
+      go();
+    });
+
+    function copyThis(e) {
+      var id = "mycustom-clipboard-textarea-hidden-id";
+      var existsTextarea = document.getElementById(id);
+
+      if (!existsTextarea) {
+        console.log("Creating textarea");
+        var textarea = document.createElement("textarea");
+        textarea.id = id;
+        textarea.style.position = 'fixed';
+        textarea.style.top = 0;
+        textarea.style.left = 0;
+        textarea.style.width = '1px';
+        textarea.style.height = '1px';
+        textarea.style.padding = 0;
+        textarea.style.border = 'none';
+        textarea.style.outline = 'none';
+        textarea.style.boxShadow = 'none';
+        textarea.style.background = 'transparent';
+        document.querySelector("body").appendChild(textarea);
+        console.log("The textarea now exists :)");
+        existsTextarea = document.getElementById(id);
+      } else {
+        console.log("The textarea already exists :3")
+      }
+
+      existsTextarea.value = e.textContent;
+      existsTextarea.select();
+
+      var status = document.execCommand('copy');
+    }
+  </script>
+</body>
+</html>
