@@ -1,1 +1,102 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Time and Facts Tool</title>
+</head>
+<body>
+    <h1>ScooperTimer Tool</h1>
+    <button onclick="showTimeAndFact('New York')">New York</button>
+    <button onclick="showTimeAndFact('Luxembourg')">Luxembourg</button>
+  
+    <p id="timeDisplay"></p>
+    <p id="factDisplay"></p>
+    
+    <script>
+        const facts = {
+            'New York': [
+                "New York City was the capital of the United States from 1785 to 1790.",
+                "The first pizzeria in the United States opened in New York City in 1895.",
+                "Central Park is larger than the principality of Monaco.",
+                "New York City's Federal Reserve Bank has the largest gold storage in the world.",
+                "More than 800 languages are spoken in New York City, making it the most linguistically diverse city in the world.",
+                "The New York Public Library has over 50 million books and other items, making it the third largest library in the world.",
+                "The Statue of Liberty was a gift from France to the United States in 1886.",
+                "Times Square is named after The New York Times, which moved its headquarters to the area in 1904.",
+                "The Empire State Building has its own zip code: 10118.",
+                "The Brooklyn Bridge, completed in 1883, was the first steel-wire suspension bridge.",
+                "The Metropolitan Museum of Art is the largest art museum in the United States.",
+                "Broadway theaters are a major tourist attraction, drawing over 14 million attendees annually.",
+                "New York City is home to the United Nations headquarters.",
+                "Wall Street is the historical heart of the Financial District and home to the New York Stock Exchange.",
+                "The Bronx Zoo is the largest metropolitan zoo in the United States.",
+                "The city’s subway system is the largest in the world by number of stations, with 472 in operation.",
+                "Greenwich Village's Washington Square Park is known for its iconic arch.",
+                "The iconic yellow taxi cabs in New York City were first introduced in 1907.",
+                "Ellis Island, where over 12 million immigrants were processed, is now a museum.",
+                "Grand Central Terminal has the largest train station in the world by number of platforms, with 44.",
+                "The One World Trade Center, also known as the Freedom Tower, is the tallest building in the Western Hemisphere.",
+                "The New York City Marathon is the largest marathon in the world.",
+                "Roosevelt Island has a small tramway system connecting it to Manhattan.",
+                "The Apollo Theater in Harlem is famous for its influential role in the rise of jazz, swing, bebop, and blues.",
+                "The city’s nickname, “The Big Apple,” was popularized in the 1920s by a sports writer.",
+                "New York City’s Chinatown is the largest Chinese enclave in the Western Hemisphere.",
+                "The Flatiron Building, built in 1902, is considered one of the first skyscrapers.",
+                "Radio City Music Hall is home to the Rockettes and hosts the annual Christmas Spectacular.",
+                "New York City has hosted the United States Open Tennis Championships since 1978.",
+                "The city’s water towers are a unique feature of its skyline, with around 15,000 still in use."
+            ],
+            'Luxembourg': [
+                "Luxembourg is the second richest country in the world by GDP per capita.",
+                "Luxembourg City is one of the official capitals of the European Union.",
+                "Luxembourg is the only Grand Duchy in the world.",
+                "Luxembourg has three official languages: Luxembourgish, French, and German.",
+                "The country has the highest minimum wage in the European Union.",
+                "Luxembourg has the highest rate of car ownership in the world.",
+                "Luxembourg City is home to the European Court of Justice.",
+                "The Bock Casemates in Luxembourg City are a UNESCO World Heritage site.",
+                "Luxembourg has a population of just over 600,000 people.",
+                "The Adolphe Bridge in Luxembourg City is known as the 'New Bridge' and is a national symbol.",
+                "Luxembourg was one of the six founding countries of the European Union.",
+                "The Luxembourg American Cemetery is the final resting place of General George S. Patton.",
+                "Luxembourg has a well-developed public transportation system, which is free for everyone.",
+                "The country is known for its medieval castles, such as Vianden Castle.",
+                "Luxembourg is one of the safest countries in the world, with a very low crime rate.",
+                "The Schengen Agreement, which led to the creation of Europe's Schengen Area, was signed in Luxembourg.",
+                "Luxembourg has one of the world's highest rates of internet penetration.",
+                "The Philharmonie Luxembourg is known for its stunning modern architecture.",
+                "The Moselle region of Luxembourg is famous for its wine production, particularly Riesling.",
+                "Luxembourg’s banking sector is one of the largest in Europe.",
+                "The country has one of the most efficient health care systems in the world.",
+                "Luxembourg is home to RTL Group, Europe’s largest entertainment network.",
+                "The country has a high rate of employment and one of the lowest unemployment rates in Europe.",
+                "Luxembourg has a diverse culinary scene, influenced by French and German cuisine.",
+                "The Grand Duke of Luxembourg is the only remaining grand duke in the world.",
+                "Luxembourg hosts the headquarters of the European Investment Bank.",
+                "The country has a robust financial services industry, with many international banks operating there.",
+                "Luxembourg's Vianden Pumped Storage Plant is one of Europe's largest hydroelectric power stations.",
+                "The Grund district in Luxembourg City is known for its picturesque streets and historic buildings.",
+                "The Mudam (Musée d'Art Moderne Grand-Duc Jean) is a major contemporary art museum in Luxembourg City."
+            ]
+        };
+
+        function showTimeAndFact(place) {
+            const timeDisplay = document.getElementById('timeDisplay');
+            const factDisplay = document.getElementById('factDisplay');
+            const timeZone = place === 'New York' ? 'America/New_York' : 'Europe/Luxembourg';
+            
+            // Get current time in the specified time zone
+            const now = new Date().toLocaleString('en-GB', { timeZone: timeZone });
+            
+            // Get a random fact about the place
+            const fact = facts[place][Math.floor(Math.random() * facts[place].length)];
+            
+            // Display the time and fact
+            timeDisplay.innerText = now;
+            factDisplay.innerText = fact;
+        }
+    </script>
+</body>
+</html>
