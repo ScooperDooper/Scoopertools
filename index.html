@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Eyal QuerySizer - Best TW Queriator Ever Made</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.1/css/all.css">
+    <?!= HtmlService.createHtmlOutputFromFile('ButtonStyles').getContent(); ?> <!-- Link to Button Styles HTML -->
+    <?!= HtmlService.createHtmlOutputFromFile('TextareaStyles').getContent(); ?> <!-- Link to Textarea Styles HTML -->
+    <?!= HtmlService.createHtmlOutputFromFile('BodyStyles').getContent(); ?> <!-- Link to Body Styles HTML -->
+    <!-- <?!= HtmlService.createHtmlOutputFromFile('OrStyle').getContent(); ?> <!-- Link to OrStyle Styles HTML -->
+    
+ <p id="credit" style="position: fixed; bottom: 10px; right: 10px; font-size: 10px;">Powered by ©Eyal</p>
+    <style>
+        /* Styling for collapsible sections */
+        .collapsible {
+            cursor: pointer;
+            padding: 18px;
+            width: 100%;
+            border: none;
+            text-align: right;
+            outline: none;
+            font-size: 15px;
+            transition: 0.4s;
+        }
+
+        .active {
+            background-color: #555;
+            color: white;
+        }
+
+        .content {
+            display: none;
+            overflow: hidden;
+            background-color: #f1f1f1;
+            transition: max-height 0.6s ease-out;
+            padding: 0 18px;
+        }
+    </style>
+
+    <script>
+        function toggleCSVSection() {
+            var csvSection = document.getElementById('csvSection');
+            if (csvSection.style.display === 'block') {
+                csvSection.style.display = 'none';
+            } else {
+                csvSection.style.display = 'block';
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>The Eyal QuerySizer - Best TW Queriator Ever Made</h1>
+    <textarea id="inputBox" rows="4" placeholder="Enter your text here..."></textarea>
+    <button class="copy-btn" onclick="processInput()">Split and Process</button>
+    <div id="output" class="output-box"></div>
+
+    <!-- Collapsible section for OR -->
+    <button class="collapsible" onclick="toggleORSection()">Toggle OR Section</button>
+    <div class="content" id="orSection">
+        <!-- Include OR.html -->
+        <?!= HtmlService.createHtmlOutputFromFile('OR').getContent(); ?> <!-- Link to OR.html -->
+    </div>
+
+    <!-- Collapsible section for CSV Builder -->
+    <button class="collapsible" onclick="toggleCSVSection()">Toggle CSV Section</button>
+    <div class="content" id="csvSection">
+        <?!= HtmlService.createHtmlOutputFromFile('csvbuilder.html').getContent(); ?> <!-- Link to csvbuilder.html 
+        
+      -->
+    </div>
+<button class="collapsible" onclick="toggleInspireSection()">Time Zone Check</button>
+<div class="content" id="inspireSection">
+    <?!= HtmlService.createHtmlOutputFromFile('inspiretool').getContent(); ?> <!-- Link to inspiretool.html -->
+    
+</div>
+    <script>
+        function processInput() {
+            var input = document.getElementById('inputBox').value;
+            google.script.run.withSuccessHandler(showOutput).splitQueries(input);
+        }
+
+        function showOutput(data) {
+            var outputDiv = document.getElementById('output');
+            outputDiv.innerHTML = ''; // Clear previous output
+
+            data.forEach(function(block, index) {
+                var container = document.createElement('div');
+                container.classList.add('output-box'); // Add class for styling
+                container.style.display = 'flex';
+                container.style.alignItems = 'center';
+                container.style.justifyContent = 'space-between';
+                container.style.marginBottom = '10px'; // Add margin at the bottom of each output box
+
+                var textBox = document.createElement('textarea');
+                textBox.value = block;
+                textBox.rows = '4';
+                textBox.style.width = '90%'; // Adjust width to leave space for the copy button
+                textBox.readOnly = true; // Make the textarea read-only
+                textBox.style.borderRadius = '5px'; // Apply border radius to match the button
+                textBox.style.border = '1px solid #ccc'; // Apply border style to match the button
+                textBox.style.padding = '10px'; // Apply padding to match the button
+
+                var copyBtn = document.createElement('button');
+                copyBtn.innerText = 'Copy';
+                copyBtn.onclick = function() { copyToClipboard(textBox); };
+                copyBtn.className = 'copy-btn'; // Apply the copy-btn class for styling
+
+                container.appendChild(textBox);
+                container.appendChild(copyBtn);
+                outputDiv.appendChild(container);
+            });
+        }
+
+        function copyToClipboard(textBox) {
+            navigator.clipboard.writeText(textBox.value)
+                .then(() => {
+                    alert('Copied the text: ' + textBox.value);
+                })
+                .catch(err => {
+                    console.error('Failed to copy text: ', err);
+                });
+        }
+
+        function toggleORSection() {
+            var orSection = document.getElementById('orSection');
+            if (orSection.style.display === 'block') {
+                orSection.style.display = 'none';
+            } else {
+                orSection.style.display = 'block';
+            }
+        }
+
+           function toggleInspireSection() {
+        var inspireSection = document.getElementById('inspireSection');
+        inspireSection.style.display = inspireSection.style.display === 'block' ? 'none' : 'block';
+    }
+    </script>
+</body>
+</html>
