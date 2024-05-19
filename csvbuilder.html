@@ -1,1 +1,110 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>List to Comma-Separated Values</title>
+    <style>
+        /* General styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        /* Container styling */
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        /* Input and output box styling */
+        textarea {
+            width: 100%;
+            height: 150px;
+            margin-bottom: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            resize: none;
+        }
+        /* Button styling */
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            margin-right: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .btn:hover {
+            background-color: #0056b3;
+        }
+        /* Clear button */
+        .clear-btn {
+            background-color: #dc3545; /* Red for clear actions */
+        }
+        .clear-btn:hover {
+            background-color: #c82333;
+        }
+        /* Hidden elements */
+        .hidden {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+        /* Visible elements */
+        .visible {
+            display: block;
+            opacity: 1;
+            transition: opacity 0.5s ease;
+        }
+        /* Custom styling for labels */
+        .label {
+            font-weight: bold;
+            margin-bottom: 5px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <label class="label" for="inputText">Input: Enter your list of words here</label>
+        <textarea id="inputText" placeholder="Separate each word with a newline..."></textarea>
+        <button class="btn" onclick="convertListToCSV()">Convert to CSV</button>
+        <button class="btn clear-btn" onclick="clearFields()">Clear</button>
+        <div id="csvOutputContainer" class="hidden">
+            <label class="label" for="csvOutputText">Output: Comma-separated values</label>
+            <textarea id="csvOutputText" placeholder="Comma-separated values will appear here..." readonly></textarea>
+        </div>
+    </div>
+
+    <script>
+        function convertListToCSV() {
+            var inputText = document.getElementById("inputText").value;
+            var words = inputText.split('\n').map(word => word.trim()).filter(word => word.length > 0); // Trim and filter empty lines
+            var csv = words.join(',');
+            var outputText = document.getElementById("csvOutputText");
+            outputText.value = csv;
+            var outputContainer = document.getElementById("csvOutputContainer");
+            outputContainer.classList.remove("hidden");
+            outputContainer.classList.add("visible");
+        }
+
+        function clearFields() {
+            document.getElementById("inputText").value = '';
+            document.getElementById("csvOutputText").value = '';
+            var outputContainer = document.getElementById("csvOutputContainer");
+            outputContainer.classList.add("hidden");
+            outputContainer.classList.remove("visible");
+        }
+    </script>
+</body>
+</html>
